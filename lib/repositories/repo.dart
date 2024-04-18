@@ -1,24 +1,25 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:wetterklein/models/city.dart';
 import 'package:wetterklein/models/weather.dart';
+
+
 class WeatherRepository {
-  
 
-  List<String> citys = [];
-
-  Future<WeatherData> getWeather(String city) async {
-    const url = 'https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation';
-    final response =
-        await http.get(Uri.parse(url));
+  Future<Weather> getWeather(City city) async {
+    await Future.delayed(const Duration(seconds: 2));
+    final url =
+        'https://api.open-meteo.com/v1/forecast?latitude=${city.latitude}&longitude=${city.longitude}&current=temperature_2m,apparent_temperature,is_day,precipitation&timezone=Europe%2FBerlin&forecast_days=1';
+    final response = await http
+        .get(Uri.parse(url), headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
-    print ('response: ${response.body}');
-
-      return WeatherData.fromJson(jsonDecode(response.body));
+     final jsonData = jsonDecode(response.body);
+     print(jsonData);
+      return Weather.fromJson(jsonData);
     } else {
-      throw Exception('Fehler beim Laden des Wetters');
+      throw Exception('Failed to load weather');
     }
   }
-
-  
 }
+

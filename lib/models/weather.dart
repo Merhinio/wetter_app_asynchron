@@ -1,5 +1,5 @@
-class WeatherData {
-  final String city;
+class Weather {
+  
   final double tempFeeling;
   final double tempReal;
   final double precipitation;
@@ -8,8 +8,8 @@ class WeatherData {
   final double latitude;
 
   
-  WeatherData({
-    required this.city,
+  Weather({
+    
     required this.tempFeeling,
     required this.tempReal,
     required this.precipitation,
@@ -20,13 +20,13 @@ class WeatherData {
 
   
 
-  factory WeatherData.fromJson(Map<String, dynamic> json) {
-    return WeatherData(
-      city: json['city'],
-      tempFeeling: json['apparent_temperature'],
-      tempReal: json['temperature_2m'],
-      precipitation: json['precipitation'],
-      isDay: json['is_day'],
+  factory Weather.fromJson(Map<String, dynamic> json) {
+    return Weather(
+     
+      tempFeeling: json['current']['apparent_temperature'],
+      tempReal: json['current']['temperature_2m'],
+      precipitation: json['current']['precipitation'],
+      isDay: json['current']['is_day'] == 1 ? true : false,
       longitude: json['longitude'],
       latitude: json['latitude'],
     );
@@ -34,7 +34,7 @@ class WeatherData {
 
   Map<String, dynamic> toJson() {
     return {
-      'city': city,
+      
       'apparent_temperature': tempFeeling,
       'temperature_2m': tempReal,
       'precipitation': precipitation,
@@ -42,5 +42,5 @@ class WeatherData {
       'longitude': longitude,
       'latitude': latitude,
     };
-  }
+  }  
 }
